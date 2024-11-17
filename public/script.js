@@ -19,6 +19,9 @@ function digitarTexto() {
     elemento.innerHTML += texto[index];
     index++;
     setTimeout(digitarTexto, 50); // Controla a velocidade da digitação
+  } else {
+    // Quando a mensagem for exibida, mostra o botão
+    document.getElementById("btn").style.display = "block";
   }
 }
 
