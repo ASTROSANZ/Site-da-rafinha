@@ -19,11 +19,11 @@ body {
 }
 
 .carta {
-  position: relative; /* Necessário para posicionar as imagens */
+  position: relative;
   padding: 20px;
-  border: 3px solid #ff69b4; /* Borda rosa */
+  border: 3px solid #ff69b4;
   border-radius: 15px;
-  background: #ffe4e1; /* Fundo rosa claro */
+  background: #ffe4e1;
   margin: 20px 0;
   max-width: 400px;
   text-align: left;
@@ -33,7 +33,7 @@ body {
 h1 {
   font-size: 1.8rem;
   margin-bottom: 20px;
-  color: #ff1493; /* Rosa escuro */
+  color: #ff1493;
   text-align: center;
 }
 
@@ -44,10 +44,9 @@ h1 {
   white-space: pre-wrap;
 }
 
-/* Estilo das imagens */
 .img-superior {
   position: absolute;
-  width: 60px; /* Tamanho reduzido */
+  width: 60px;
   height: auto;
 }
 
@@ -60,3 +59,34 @@ h1 {
   top: -20px;
   right: -20px;
 }
+
+button {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  background-color: #ff1493;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #ff69b4;
+}
+
+/* Estilo da imagem da amada */
+.foto-amada {
+  max-width: 100%;
+  height: auto;
+  max-height: 300px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 20px;
+  
