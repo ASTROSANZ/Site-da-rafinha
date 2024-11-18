@@ -1,5 +1,5 @@
 const texto = `
-Minha pessoa favorita,
+Rafaella minha temakinha,
 
 Desde que te conheci, minha vida mudou completamente. 
 Cada dia ao seu lado é uma aventura incrível, cheia de amor e felicidade.
