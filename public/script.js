@@ -20,9 +20,13 @@ function digitarTexto() {
     index++;
     setTimeout(digitarTexto, 50); // Controla a velocidade da digitação
   } else {
-    // Quando a mensagem for exibida, mostra o botão
-    document.getElementById("btn").style.display = "block";
+    mostrarBotoes(); // Mostra os botões ao finalizar o texto
   }
+}
+
+function mostrarBotoes() {
+  document.getElementById("botao-foto-musica").style.display = "block";
+  document.getElementById("botao-diversao").style.display = "block";
 }
 
 window.onload = digitarTexto;
