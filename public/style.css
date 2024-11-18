@@ -1,4 +1,3 @@
-/* Configuração básica */
 body {
   font-family: 'Arial', sans-serif;
   background: linear-gradient(to bottom right, #ffe4e1, #ffc0cb); /* Fundo rosa claro */
@@ -89,4 +88,4 @@ p {
   font-size: 1.2rem;
   color: #555;
   margin-bottom: 20px;
-  
+}
