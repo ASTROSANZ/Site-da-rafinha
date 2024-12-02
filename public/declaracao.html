@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minha Amada</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Imagem da amada -->
+    <img src="rafa.png" alt="Minha Amada" class="foto-amada">
+
+    <!-- Música que lembra você -->
+    <p>Toda vez que eu te olho, esse som vem na minha mente, porque pra mim vc é a princesa mais bela que existe</p>
+
+    <!-- Áudio com botão de controle -->
+    <audio id="audio" preload="auto">
+      <source src="musica.mp3" type="audio/mp3">
+      Seu navegador não suporta o elemento de áudio.
+    </audio>
+
+    <!-- Botão para tocar o áudio -->
+    <button onclick="playAudio()">Escutar</button>
+  </div>
+
+  <script>
+    // Função para reproduzir o áudio ao clicar no botão
+    function playAudio() {
+      const audio = document.getElementById('audio');
+      audio.play();
+    }
+  </script>
+</body>
+</html>
