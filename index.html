@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso ao Sistema</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #2b5876, #4e4376);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 90%;
+        }
+        
+        h1 {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            opacity: 0.8;
+            margin-bottom: 40px;
+        }
+        
+        .fingerprint-btn {
+            position: relative;
+            width: clamp(100px, 30vw, 150px);
+            height: clamp(100px, 30vw, 150px);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin: 0 auto;
+        }
+        
+        .fingerprint-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .fingerprint-icon {
+            width: 60%;
+            height: 60%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M17.81 4.47c-.08 0-.16-.02-.23-.06C15.66 3.42 14 3 12.01 3c-1.98 0-3.86.47-5.57 1.41-.24.13-.54.04-.68-.2-.13-.24-.04-.55.2-.68C8.82 2.52 10.86 2 12.01 2c2.13 0 3.99.51 5.49 1.52.25.13.34.43.21.67-.09.16-.26.28-.44.28zM3.5 9.72c-.1 0-.2-.03-.29-.09-.23-.16-.28-.47-.12-.7.99-1.4 2.25-2.5 3.75-3.27C9.98 3.83 11.49 3.5 13.01 3.5c1.51 0 2.99.33 4.33.99.24.1.36.37.26.62-.1.24-.37.36-.62.26-1.2-.52-2.47-.78-3.77-.78-1.3 0-2.6.29-3.81.86-1.33.65-2.45 1.62-3.33 2.86-.1.14-.25.21-.41.21zm17.79 4.64c-.06 0-.13-.01-.19-.03-1.3-.52-2.69-.8-4.1-.8-1.5 0-2.89.32-4.19.95-1.18.57-2.2 1.41-3.04 2.47-.17.21-.47.24-.68.07-.21-.17-.24-.47-.07-.68.92-1.17 2.05-2.12 3.36-2.77 1.45-.7 3.03-1.05 4.62-1.05 1.57 0 3.12.3 4.58.89.23.09.34.33.25.56-.07.17-.23.27-.4.27zm.31 3.48c-.04 0-.09-.01-.13-.02-1.61-.44-3.3-.68-5.02-.68-1.51 0-2.97.21-4.37.62-.21.06-.43-.06-.5-.27-.06-.21.06-.43.27-.5 1.49-.43 3.05-.65 4.6-.65 1.83 0 3.62.25 5.33.72.21.06.33.27.27.48-.05.17-.2.27-.37.27zm-18.62.1c-.15 0-.29-.08-.37-.21-1.29-2.14-1.97-4.64-1.97-7.21 0-2.57.68-5.08 1.97-7.21.12-.2.39-.26.59-.14.2.12.26.39.14.59-1.2 1.98-1.83 4.28-1.83 6.76 0 2.48.63 4.78 1.83 6.76.12.2.06.47-.14.59-.07.04-.15.06-.22.06zm4.29 1.01c-.16 0-.32-.08-.41-.22-1.18-1.76-1.82-3.83-1.89-5.95-.01-.23.17-.42.4-.43.23-.01.42.17.43.4.06 1.94.66 3.81 1.71 5.41.14.21.09.5-.12.64-.08.06-.18.09-.27.09zm13.42-.05c-.1 0-.2-.03-.29-.1-.19-.14-.24-.4-.1-.59.98-1.32 1.52-2.87 1.58-4.5.01-.23.2-.41.43-.4.23.01.4.2.39.43-.07 1.87-.67 3.66-1.79 5.18-.09.13-.23.2-.38.2zm-5.85 1.35c-.07 0-.13-.01-.2-.04-1.89-.64-3.77-.96-5.64-.96-1.4 0-2.79.21-4.15.62-.22.07-.45-.05-.52-.27-.07-.22.05-.45.27-.52 1.45-.43 2.94-.65 4.4-.65 2 0 3.99.34 5.98 1.02.22.07.33.3.25.52-.06.18-.22.28-.4.28z"/></svg>') no-repeat center center;
+            background-size: contain;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+        
+        .fingerprint-text {
+            margin-top: 8px;
+            font-size: clamp(0.7rem, 3vw, 0.9rem);
+            font-weight: bold;
+            opacity: 0.9;
+        }
+        
+        .fingerprint-btn.active {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(100, 255, 255, 0.6);
+        }
+        
+        .fingerprint-btn.active .fingerprint-icon {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        .scan-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(to bottom, rgba(100, 255, 255, 0.3), transparent);
+            border-radius: 50%;
+            animation: scan 1.2s forwards;
+            display: none;
+        }
+        
+        .ripple {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid rgba(100, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: ripple 1.5s infinite;
+            opacity: 0;
+        }
+        
+        .fingerprint-btn.active .ripple {
+            animation: ripple 1.5s infinite, pulse 0.8s forwards;
+        }
+        
+        @keyframes scan {
+            0% {
+                height: 0;
+                opacity: 0.8;
+            }
+            100% {
+                height: 100%;
+                opacity: 0;
+            }
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.4;
+            }
+            100% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        
+        .loading-text {
+            margin-top: 20px;
+            font-size: clamp(0.8rem, 3vw, 1rem);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .fingerprint-btn.active + .loading-text {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Acesso Restrito</h1>
+        <div class="subtitle">Identificação necessária</div>
+        
+        <div class="fingerprint-btn" id="fingerprintBtn">
+            <div class="fingerprint-icon"></div>
+            <div class="fingerprint-text">Digital</div>
+            <div class="scan-animation" id="scanAnimation"></div>
+            <div class="ripple"></div>
+        </div>
+        <div class="loading-text">Verificando identidade...</div>
+    </div>
+
+    <script>
+        const fingerprintBtn = document.getElementById('fingerprintBtn');
+        const scanAnimation = document.getElementById('scanAnimation');
+        
+        fingerprintBtn.addEventListener('click', function() {
+            // Ativar estado de pressionado
+            fingerprintBtn.classList.add('active');
+            scanAnimation.style.display = 'block';
+            
+            // Mostrar texto de loading
+            document.querySelector('.loading-text').style.opacity = '0.8';
+            
+            // Redirecionar após a animação
+            setTimeout(function() {
+                window.location.href = 'hub.html';
+            }, 1500);
+        });
+        
+        // Efeito hover para desktop
+        fingerprintBtn.addEventListener('mouseenter', function() {
+            if (!fingerprintBtn.classList.contains('active')) {
+                fingerprintBtn.style.transform = 'scale(1.05)';
+            }
+        });
+        
+        fingerprintBtn.addEventListener('mouseleave', function() {
+            if (!fingerprintBtn.classList.contains('active')) {
+                fingerprintBtn.style.transform = 'scale(1)';
+            }
+        });
+        
+        // Efeito de toque para mobile
+        fingerprintBtn.addEventListener('touchstart', function() {
+            if (!fingerprintBtn.classList.contains('active')) {
+                fingerprintBtn.style.transform = 'scale(0.95)';
+            }
+        });
+        
+        fingerprintBtn.addEventListener('touchend', function() {
+            if (!fingerprintBtn.classList.contains('active')) {
+                fingerprintBtn.style.transform = 'scale(1)';
+            }
+        });
+    </script>
+</body>
+</html>

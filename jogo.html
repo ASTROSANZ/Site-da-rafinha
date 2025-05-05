@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chef Master</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        
+        :root {
+            --primary: #FF7676;
+            --secondary: #FFA3A3;
+            --accent: #74B9FF;
+            --dark: #2D3436;
+            --light: #FDFDFD;
+            --success: #55EFC4;
+            --danger: #FF7676;
+            --warning: #FDCB6E;
+            --counter: #FFEAA7;
+            --wall: #FFD6D6;
+            --floor: #D8A7A7;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--wall);
+            color: var(--dark);
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
+        
+        /* Cozinha */
+        .kitchen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .wall {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70%;
+            background-color: var(--wall);
+        }
+        
+        .floor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background-color: var(--floor);
+        }
+        
+        .counter {
+            position: absolute;
+            bottom: 30%;
+            left: 0;
+            width: 100%;
+            height: 15%;
+            background-color: var(--counter);
+            border-top: 5px solid #D4A53A;
+        }
+        
+        .backsplash {
+            position: absolute;
+            bottom: 45%;
+            left: 0;
+            width: 100%;
+            height: 10%;
+            background: repeating-linear-gradient(
+                45deg,
+                var(--wall),
+                var(--wall) 10px,
+                var(--counter) 10px,
+                var(--counter) 20px
+            );
+        }
+        
+        /* Interface do jogo */
+        .game-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+        
+        .score-container, .time-container, .level-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
+        }
+        
+        .score-label, .time-label, .level-label {
+            font-size: 0.9rem;
+            color: var(--dark);
+            opacity: 0.7;
+            margin-bottom: 3px;
+        }
+        
+        .score-value, .time-value, .level-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .order-container {
+            background-color: white;
+            width: 100%;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .order-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .order-preview {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .ingredient-icon {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.2));
+        }
+        
+        .game-board {
+            width: 100%;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .plate {
+            width: 200px;
+            height: 30px;
+            background: #F1F1F1;
+            border-radius: 50% 50% 10px 10px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+        
+        .plate::before {
+            content: "";
+            position: absolute;
+            top: 5px;
+            width: 180px;
+            height: 20px;
+            background: #E1E1E1;
+            border-radius: 50%;
+        }
+        
+        .burger-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: -15px;
+        }
+        
+        .burger-ingredient {
+            width: 180px;
+            height: 30px;
+            border-radius: 15px;
+            margin-top: -5px;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 3px 0 rgba(0,0,0,0.1);
+        }
+        
+        .customer-container {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+        
+        .customer {
+            width: 100px;
+            height: 120px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+        }
+        
+        .ingredients-panel {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            padding: 15px 0;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .ingredient-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .ingredient-img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 10px;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border-radius: 15px;
+            border: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .submit-btn {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .trash-btn {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .timer-bar {
+            height: 8px;
+            background-color: var(--accent);
+            border-radius: 10px;
+            margin-top: 15px;
+            transition: width 0.5s linear;
+        }
+        
+        /* Efeitos */
+        @keyframes jump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .jump {
+            animation: jump 0.5s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .shake {
+            animation: shake 0.3s ease-in-out;
+        }
+        
+        .confetti {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: jump 1s ease-out forwards;
+            z-index: 100;
+        }
+        
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .modal-btn {
+            padding: 12px 25px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cozinha -->
+    <div class="kitchen">
+        <div class="wall"></div>
+        <div class="backsplash"></div>
+        <div class="counter"></div>
+        <div class="floor"></div>
+    </div>
+    
+    <!-- Interface do jogo -->
+    <div class="game-header">
+        <div class="score-container">
+            <div class="score-label">Pontuação</div>
+            <div class="score-value" id="score">0</div>
+        </div>
+        <div class="level-container">
+            <div class="level-label">Nível</div>
+            <div class="level-value" id="level">1</div>
+        </div>
+        <div class="time-container">
+            <div class="time-label">Tempo</div>
+            <div class="time-value" id="time">60</div>
+        </div>
+    </div>
+    
+    <div class="order-container">
+        <div class="order-title">Prepara este pedido:</div>
+        <div class="order-preview" id="order-preview"></div>
+        <div class="timer-bar" id="timer-bar"></div>
+    </div>
+    
+    <div class="game-board">
+        <div class="customer-container">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 120'><circle cx='50' cy='50' r='40' fill='%23212529'/><circle cx='35' cy='40' r='5' fill='%23ffffff'/><circle cx='65' cy='40' r='5' fill='%23ffffff'/><path d='M30,70 Q50,90 70,70' stroke='%23ffffff' stroke-width='3' fill='none'/></svg>" class="customer" id="customer">
+        </div>
+        
+        <div class="burger-container">
+            <div id="burger-stack"></div>
+            <div class="plate"></div>
+        </div>
+    </div>
+    
+    <div class="ingredients-panel">
+        <button class="ingredient-btn" id="bread">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='60' rx='40' ry='30' fill='%23F9D56E'/><ellipse cx='50' cy='50' rx='40' ry='30' fill='%23E5B143'/></svg>" class="ingredient-img">
+        </button>
+        <button class="ingredient-btn" id="meat">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><ellipse cx='50' cy='60' rx='40' ry='30' fill='%23723900'/><ellipse cx='50' cy='50' rx='40' ry='30' fill='%23994D00'/></svg>" class="ingredient-img">
+        </button>
+        <button class="ingredient-btn" id="cheese">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='20' y='40' width='60' height='20' rx='5' fill='%23FFD700'/></svg>" class="ingredient-img">
+        </button>
+        <button class="ingredient-btn" id="lettuce">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M20,60 Q50,30 80,60 Q50,90 20,60' fill='%2337D67A'/></svg>" class="ingredient-img">
+        </button>
+        <button class="ingredient-btn" id="tomato">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='30' fill='%23FF0000'/></svg>" class="ingredient-img">
+        </button>
+    </div>
+    
+    <div class="action-buttons">
+        <button class="action-btn trash-btn" id="trash">
+            <span>🗑️ Limpar</span>
+        </button>
+        <button class="action-btn submit-btn" id="submit">
+            <span>✅ Servir</span>
+        </button>
+    </div>
+    
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Chef Master</h2>
+            <p>Prepare hambúrgueres conforme os pedidos dos clientes!</p>
+            <button class="modal-btn" id="start-btn">Começar</button>
+        </div>
+    </div>
+
+    <script>
+        // Elementos do DOM
+        const scoreElement = document.getElementById('score');
+        const levelElement = document.getElementById('level');
+        const timeElement = document.getElementById('time');
+        const timerBarElement = document.getElementById('timer-bar');
+        const orderPreviewElement = document.getElementById('order-preview');
+        const burgerStackElement = document.getElementById('burger-stack');
+        const customerElement = document.getElementById('customer');
+        const modal = document.getElementById('modal');
+        const startBtn = document.getElementById('start-btn');
+        
+        // Ingredientes com representação visual direta
+        const ingredients = {
+            bread: {
+                name: 'Pão',
+                html: `<div style="width:100%;height:100%;background:linear-gradient(#F9D56E, #E5B143);border-radius:15px;"></div>`
+            },
+            meat: {
+                name: 'Carne',
+                html: `<div style="width:100%;height:100%;background:linear-gradient(#994D00, #723900);border-radius:15px;"></div>`
+            },
+            cheese: {
+                name: 'Queijo',
+                html: `<div style="width:100%;height:100%;background:#FFD700;border-radius:15px;"></div>`
+            },
+            lettuce: {
+                name: 'Alface',
+                html: `<div style="width:100%;height:100%;background:#37D67A;border-radius:15px;"></div>`
+            },
+            tomato: {
+                name: 'Tomate',
+                html: `<div style="width:100%;height:100%;background:#FF5252;border-radius:15px;"></div>`
+            }
+        };
+        
+        // Variáveis do jogo
+        let score = 0;
+        let level = 1;
+        let timeLeft = 60;
+        let currentOrder = [];
+        let playerBurger = [];
+        let gameInterval;
+        
+        // Iniciar o jogo
+        function initGame() {
+            score = 0;
+            level = 1;
+            timeLeft = 60;
+            updateScore();
+            updateLevel();
+            updateTimer();
+            generateOrder();
+            
+            // Event listeners
+            document.getElementById('bread').addEventListener('click', () => addIngredient('bread'));
+            document.getElementById('meat').addEventListener('click', () => addIngredient('meat'));
+            document.getElementById('cheese').addEventListener('click', () => addIngredient('cheese'));
+            document.getElementById('lettuce').addEventListener('click', () => addIngredient('lettuce'));
+            document.getElementById('tomato').addEventListener('click', () => addIngredient('tomato'));
+            document.getElementById('trash').addEventListener('click', clearBurger);
+            document.getElementById('submit').addEventListener('click', submitBurger);
+            startBtn.addEventListener('click', startGame);
+        }
+        
+        // Começar o jogo
+        function startGame() {
+            modal.style.display = 'none';
+            gameInterval = setInterval(updateGame, 1000);
+        }
+        
+        // Atualizar o jogo
+        function updateGame() {
+            timeLeft--;
+            updateTimer();
+            
+            if (timeLeft <= 0) {
+                endGame();
+            }
+        }
+        
+        // Finalizar o jogo
+        function endGame() {
+            clearInterval(gameInterval);
+            modal.style.display = 'flex';
+            modal.querySelector('p').textContent = `Fim do jogo! Sua pontuação: ${score}`;
+            startBtn.textContent = 'Jogar novamente';
+        }
+        
+        // Atualizar pontuação
+        function updateScore() {
+            scoreElement.textContent = score;
+        }
+        
+        // Atualizar nível
+        function updateLevel() {
+            levelElement.textContent = level;
+        }
+        
+        // Atualizar timer
+        function updateTimer() {
+            timeElement.textContent = timeLeft;
+            const percentage = (timeLeft / 60) * 100;
+            timerBarElement.style.width = `${percentage}%`;
+        }
+        
+        // Gerar novo pedido
+        function generateOrder() {
+            currentOrder = [];
+            playerBurger = [];
+            burgerStackElement.innerHTML = '';
+            orderPreviewElement.innerHTML = '';
+            
+            // Criar pedido aleatório
+            const numIngredients = 2 + Math.floor(Math.random() * 3);
+            const options = ['bread', 'meat', 'cheese', 'lettuce', 'tomato'];
+            
+            // Sempre começa e termina com pão
+            currentOrder.push('bread');
+            
+            for (let i = 1; i < numIngredients - 1; i++) {
+                const randomIndex = Math.floor(Math.random() * (options.length - 1)) + 1;
+                currentOrder.push(options[randomIndex]);
+            }
+            
+            currentOrder.push('bread');
+            
+            // Mostrar pedido
+            currentOrder.forEach(ing => {
+                const img = document.createElement('img');
+                img.src = document.getElementById(ing).querySelector('img').src;
+                img.className = 'ingredient-icon';
+                orderPreviewElement.appendChild(img);
+            });
+            
+            // Resetar tempo
+            timeLeft = Math.max(30, 60 - (level * 5));
+            updateTimer();
+        }
+        
+        // Adicionar ingrediente
+        function addIngredient(type) {
+            playerBurger.push(type);
+            updateBurgerDisplay();
+        }
+        
+        // Atualizar visualização do hambúrguer (AGORA FUNCIONANDO)
+        function updateBurgerDisplay() {
+            burgerStackElement.innerHTML = '';
+            
+            // Mostrar ingredientes na ordem inversa
+            for (let i = playerBurger.length - 1; i >= 0; i--) {
+                const ing = playerBurger[i];
+                const div = document.createElement('div');
+                div.className = 'burger-ingredient';
+                div.innerHTML = ingredients[ing].html;
+                burgerStackElement.appendChild(div);
+            }
+        }
+        
+        // Limpar hambúrguer
+        function clearBurger() {
+            playerBurger = [];
+            burgerStackElement.innerHTML = '';
+        }
+        
+        // Servir hambúrguer
+        function submitBurger() {
+            if (playerBurger.length === 0) return;
+            
+            // Verificar se está correto
+            let correct = true;
+            
+            if (playerBurger.length !== currentOrder.length) {
+                correct = false;
+            } else {
+                for (let i = 0; i < playerBurger.length; i++) {
+                    if (playerBurger[i] !== currentOrder[i]) {
+                        correct = false;
+                        break;
+                    }
+                }
+            }
+            
+            if (correct) {
+                score += 10 * level;
+                if (score >= level * 50) {
+                    level++;
+                    updateLevel();
+                }
+                updateScore();
+                customerElement.classList.add('jump');
+                setTimeout(() => customerElement.classList.remove('jump'), 500);
+                generateOrder();
+            } else {
+                if (score > 0) score -= 5;
+                updateScore();
+                customerElement.classList.add('shake');
+                setTimeout(() => customerElement.classList.remove('shake'), 500);
+                clearBurger();
+            }
+        }
+        
+        // Iniciar quando a página carregar
+        window.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+</html>

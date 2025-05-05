@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta para Rafaella</title>
+    <style>
+        body {
+            background-color: #fff5f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .envelope {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+        
+        .paper {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            position: relative;
+            border: 1px solid #ffd6e7;
+        }
+        
+        .paper:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: linear-gradient(to right, #ff9bb3, #ffd6e7, #ff9bb3);
+            border-radius: 10px 10px 0 0;
+        }
+        
+        h1 {
+            color: #ff6b8b;
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 2.5em;
+        }
+        
+        p {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        
+        .signature {
+            text-align: right;
+            font-style: italic;
+            margin-top: 40px;
+            color: #ff6b8b;
+            font-weight: bold;
+        }
+        
+        .heart {
+            color: #ff6b8b;
+            font-size: 1.5em;
+            vertical-align: middle;
+        }
+        
+        .seal {
+            position: absolute;
+            top: -20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #ff6b8b;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="envelope">
+        <div class="paper">
+            <div class="seal">💌</div>
+            <h1>Rafaella Minha Temakinha</h1>
+            
+            <p>Desde que te conheci, minha vida mudou completamente. 
+            Cada dia ao seu lado é uma aventura incrível, cheia de amor e felicidade.</p>
+            
+            <p>Quero te agradecer por tudo que você é e por tudo que fazemos juntos. 
+            Você é minha razão de sorrir, minha inspiração e meu maior amor.</p>
+            
+            <div class="signature">
+                Com todo o meu coração,<br>
+                Seu eterno admirador. <span class="heart">💖</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
